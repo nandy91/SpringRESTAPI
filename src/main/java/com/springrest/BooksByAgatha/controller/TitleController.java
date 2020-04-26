@@ -1,5 +1,6 @@
 package com.springrest.BooksByAgatha.controller;
 
+import com.springrest.BooksByAgatha.exception.TitleNotFoundException;
 import com.springrest.BooksByAgatha.model.Title;
 import com.springrest.BooksByAgatha.service.TitleService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,9 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.awt.*;
 import java.net.URI;
-import java.util.Collection;
 
 @RestController
 @RequestMapping("/")
@@ -48,4 +47,10 @@ public class TitleController {
         return new ResponseEntity<Iterable<Title>>(titles,HttpStatus.OK);
     }
 
+    @GetMapping("/title/{id}")
+    @Operation(description = "Returns one Agatha Christie with id ", responses = {
+            @ApiResponse(content = @Content(schema = @Schema(implementation = Title.class)), responseCode = "200")})
+    public Title getidTitle(@PathVariable("id") int id){
+        return titleService.getTitle(id).orElseThrow(()-> new TitleNotFoundException(id));
+    }
 }
