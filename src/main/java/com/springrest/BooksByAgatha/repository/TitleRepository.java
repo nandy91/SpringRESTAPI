@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TitleRepository extends PagingAndSortingRepository<Title,Integer> {
+    //public Iterable<Title> findBySeries(String series);
 }
